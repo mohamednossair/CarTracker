@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-car-heading">Create or edit a Car</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!car.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_code">Code</label>
+                    <input type="text" class="form-control" name="code" id="field_code"
+                           formControlName="code"/>
+                    <div *ngIf="editForm.get('code').invalid && (editForm.get('code').dirty || editForm.get('code').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('code').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_carType">Car Type</label>
+                    <input type="text" class="form-control" name="carType" id="field_carType"
+                           formControlName="carType"/>
+                    <div *ngIf="editForm.get('carType').invalid && (editForm.get('carType').dirty || editForm.get('carType').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('carType').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_category">Category</label>
+                    <input type="text" class="form-control" name="category" id="field_category"
+                           formControlName="category"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_serialNum">Serial Num</label>
+                    <input type="text" class="form-control" name="serialNum" id="field_serialNum"
+                           formControlName="serialNum"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_hide">Hide</label>
+                    <input type="checkbox" class="form-control" name="hide" id="field_hide"
+                           formControlName="hide"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_isNew">Is New</label>
+                    <input type="checkbox" class="form-control" name="isNew" id="field_isNew"
+                           formControlName="isNew"/>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

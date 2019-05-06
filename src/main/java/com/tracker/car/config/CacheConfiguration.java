@@ -43,6 +43,15 @@ public class CacheConfiguration {
             createCache(cm, com.tracker.car.domain.User.class.getName());
             createCache(cm, com.tracker.car.domain.Authority.class.getName());
             createCache(cm, com.tracker.car.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.tracker.car.domain.Branch.class.getName());
+            createCache(cm, com.tracker.car.domain.Branch.class.getName() + ".employees");
+            createCache(cm, com.tracker.car.domain.Company.class.getName());
+            createCache(cm, com.tracker.car.domain.Company.class.getName() + ".employees");
+            createCache(cm, com.tracker.car.domain.Employee.class.getName());
+            createCache(cm, com.tracker.car.domain.Employee.class.getName() + ".employeeCars");
+            createCache(cm, com.tracker.car.domain.Car.class.getName());
+            createCache(cm, com.tracker.car.domain.Car.class.getName() + ".employeeCars");
+            createCache(cm, com.tracker.car.domain.EmployeeCars.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

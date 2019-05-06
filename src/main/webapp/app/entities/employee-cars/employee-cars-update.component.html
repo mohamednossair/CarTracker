@@ -1,0 +1,94 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-employee-cars-heading">Create or edit a Employee Cars</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!employeeCars.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_previousReading">Previous Reading</label>
+                    <input type="number" class="form-control" name="previousReading" id="field_previousReading"
+                           formControlName="previousReading"/>
+                    <div *ngIf="editForm.get('previousReading').invalid && (editForm.get('previousReading').dirty || editForm.get('previousReading').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('previousReading').errors.min">
+                            This field should be at least 0.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('previousReading')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_currentReading">Current Reading</label>
+                    <input type="number" class="form-control" name="currentReading" id="field_currentReading"
+                           formControlName="currentReading"/>
+                    <div *ngIf="editForm.get('currentReading').invalid && (editForm.get('currentReading').dirty || editForm.get('currentReading').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('currentReading').errors.min">
+                            This field should be at least 0.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('currentReading')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_workingDays">Working Days</label>
+                    <input type="number" class="form-control" name="workingDays" id="field_workingDays"
+                           formControlName="workingDays"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updateDate">Update Date</label>
+                    <div class="input-group">
+                        <input id="field_updateDate" type="text" class="form-control" name="updateDate" ngbDatepicker  #updateDateDp="ngbDatepicker" formControlName="updateDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="updateDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" formControlName="employee">
+                        <option *ngIf="!editForm.get('employee').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="employeeOption.id === editForm.get('employee').value?.id ? editForm.get('employee').value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.id}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('employee').invalid && (editForm.get('employee').dirty || editForm.get('employee').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('employee').errors.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_car">Car</label>
+                    <select class="form-control" id="field_car" name="car" formControlName="car">
+                        <option *ngIf="!editForm.get('car').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="carOption.id === editForm.get('car').value?.id ? editForm.get('car').value : carOption" *ngFor="let carOption of cars; trackBy: trackCarById">{{carOption.id}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('car').invalid && (editForm.get('car').dirty || editForm.get('car').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('car').errors.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+{
+    "name": "EmployeeCars",
+    "fields": [
+        {
+            "fieldName": "previousReading",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
+        },
+        {
+            "fieldName": "currentReading",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
+        },
+        {
+            "fieldName": "workingDays",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "employeeCars",
+            "relationshipValidateRules": "required",
+            "relationshipName": "employee",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "car",
+            "otherEntityRelationshipName": "employeeCars",
+            "relationshipValidateRules": "required",
+            "relationshipName": "car",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190506224956",
+    "entityTableName": "employee_cars",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

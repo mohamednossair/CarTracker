@@ -1,0 +1,53 @@
+
+
+entity Branch {
+	code String required unique
+	name String required    
+}
+
+entity Company {
+	code String required unique
+	name String required
+}
+
+entity Employee{
+	code String required unique
+    name String required
+}
+entity Car{
+	code String required unique
+    carType String required 
+	category String
+    SerialNum String
+    hide Boolean
+    isNew Boolean
+}
+
+
+entity EmployeeCars{
+	PreviousReading Double min(0)
+	CurrentReading Double min(0)
+	WorkingDays Integer
+	UpdateDate LocalDate
+}
+
+relationship OneToOne {
+  Employee to User with jpaDerivedIdentifier
+}
+
+
+relationship OneToMany{
+	  Branch to  Employee {branche required}
+	  Company to Employee {company required }
+} 
+relationship OneToMany {
+	 
+
+	Employee to EmployeeCars {employee required}
+	Car to EmployeeCars {car required}  
+}
+
+
+service * with serviceClass
+paginate Car, EmployeeCars with pagination
+
