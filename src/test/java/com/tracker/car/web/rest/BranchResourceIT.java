@@ -68,7 +68,7 @@ public class BranchResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final BranchResource branchResource = new BranchResource(branchService);
+        final BranchResource branchResource = new BranchResource(branchService,branchRepository);
         this.restBranchMockMvc = MockMvcBuilders.standaloneSetup(branchResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

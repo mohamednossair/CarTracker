@@ -18,56 +18,67 @@ import java.util.Optional;
 @Transactional
 public class BranchService {
 
-    private final Logger log = LoggerFactory.getLogger(BranchService.class);
+	private final Logger log = LoggerFactory.getLogger(BranchService.class);
 
-    private final BranchRepository branchRepository;
+	private final BranchRepository branchRepository;
 
-    public BranchService(BranchRepository branchRepository) {
-        this.branchRepository = branchRepository;
-    }
+	public BranchService(BranchRepository branchRepository) {
+		this.branchRepository = branchRepository;
+	}
 
-    /**
-     * Save a branch.
-     *
-     * @param branch the entity to save.
-     * @return the persisted entity.
-     */
-    public Branch save(Branch branch) {
-        log.debug("Request to save Branch : {}", branch);
-        return branchRepository.save(branch);
-    }
+	/**
+	 * Save a branch.
+	 *
+	 * @param branch the entity to save.
+	 * @return the persisted entity.
+	 */
+	public Branch save(Branch branch) {
+		log.debug("Request to save Branch : {}", branch);
+		return branchRepository.save(branch);
+	}
 
-    /**
-     * Get all the branches.
-     *
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<Branch> findAll() {
-        log.debug("Request to get all Branches");
-        return branchRepository.findAll();
-    }
+	/**
+	 * Get all the branches.
+	 *
+	 * @return the list of entities.
+	 */
+	@Transactional(readOnly = true)
+	public List<Branch> findAll() {
+		log.debug("Request to get all Branches");
+		return branchRepository.findAll();
+	}
 
+	/**
+	 * Get one branch by id.
+	 *
+	 * @param id the id of the entity.
+	 * @return the entity.
+	 */
+	@Transactional(readOnly = true)
+	public Optional<Branch> findOne(Long id) {
+		log.debug("Request to get Branch : {}", id);
+		return branchRepository.findById(id);
+	}
 
-    /**
-     * Get one branch by id.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
-    @Transactional(readOnly = true)
-    public Optional<Branch> findOne(Long id) {
-        log.debug("Request to get Branch : {}", id);
-        return branchRepository.findById(id);
-    }
+	/**
+	 * Delete the branch by id.
+	 *
+	 * @param id the id of the entity.
+	 */
+	public void delete(Long id) {
+		log.debug("Request to delete Branch : {}", id);
+		branchRepository.deleteById(id);
+	}
 
-    /**
-     * Delete the branch by id.
-     *
-     * @param id the id of the entity.
-     */
-    public void delete(Long id) {
-        log.debug("Request to delete Branch : {}", id);
-        branchRepository.deleteById(id);
-    }
+	/**
+	 * Get one branch by Code.
+	 *
+	 * @param Code the Code of the entity.
+	 * @return the entity.
+	 */
+	@Transactional(readOnly = true)
+	public Optional<Branch> findByCode(String code) {
+		log.debug("Request to get Branch : {}", code);
+		return branchRepository.findByCode(code);
+	}
 }

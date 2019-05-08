@@ -1,6 +1,7 @@
 package com.tracker.car.web.rest;
 
 import com.tracker.car.domain.Branch;
+import com.tracker.car.repository.BranchRepository;
 import com.tracker.car.service.BranchService;
 import com.tracker.car.web.rest.errors.BadRequestAlertException;
 
@@ -26,93 +27,112 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class BranchResource {
 
-    private final Logger log = LoggerFactory.getLogger(BranchResource.class);
+	private final Logger log = LoggerFactory.getLogger(BranchResource.class);
 
-    private static final String ENTITY_NAME = "branch";
+	private static final String ENTITY_NAME = "branch";
 
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
+	@Value("${jhipster.clientApp.name}")
+	private String applicationName;
 
-    private final BranchService branchService;
+	private final BranchService branchService;
+	private final BranchRepository branchRepository;
 
-    public BranchResource(BranchService branchService) {
-        this.branchService = branchService;
-    }
+	public BranchResource(BranchService branchService, BranchRepository branchRepository) {
+		this.branchService = branchService;
+		this.branchRepository = branchRepository;
+	}
 
-    /**
-     * {@code POST  /branches} : Create a new branch.
-     *
-     * @param branch the branch to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new branch, or with status {@code 400 (Bad Request)} if the branch has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PostMapping("/branches")
-    public ResponseEntity<Branch> createBranch(@Valid @RequestBody Branch branch) throws URISyntaxException {
-        log.debug("REST request to save Branch : {}", branch);
-        if (branch.getId() != null) {
-            throw new BadRequestAlertException("A new branch cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        Branch result = branchService.save(branch);
-        return ResponseEntity.created(new URI("/api/branches/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
-    }
+	/**
+	 * {@code POST  /branches} : Create a new branch.
+	 *
+	 * @param branch the branch to create.
+	 * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+	 *         body the new branch, or with status {@code 400 (Bad Request)} if the
+	 *         branch has already an ID.
+	 * @throws URISyntaxException if the Location URI syntax is incorrect.
+	 */
+	@PostMapping("/branches")
+	public ResponseEntity<Branch> createBranch(@Valid @RequestBody Branch branch) throws URISyntaxException {
+		log.debug("REST request to save Branch : {}", branch);
+		if (branch.getId() != null) {
+			throw new BadRequestAlertException("A new branch cannot already have an ID", ENTITY_NAME, "idexists");
+		}
 
-    /**
-     * {@code PUT  /branches} : Updates an existing branch.
-     *
-     * @param branch the branch to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated branch,
-     * or with status {@code 400 (Bad Request)} if the branch is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the branch couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PutMapping("/branches")
-    public ResponseEntity<Branch> updateBranch(@Valid @RequestBody Branch branch) throws URISyntaxException {
-        log.debug("REST request to update Branch : {}", branch);
-        if (branch.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        Branch result = branchService.save(branch);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, branch.getId().toString()))
-            .body(result);
-    }
+		if (branchRepository.findByCode(branch.getCode()).isPresent()) {
+			throw new BadRequestAlertException("A new branch code already used", ENTITY_NAME, "codeexists");
+		}
+		Branch result = branchService.save(branch);
+		return ResponseEntity
+				.created(new URI("/api/branches/" + result.getId())).headers(HeaderUtil
+						.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+				.body(result);
+	}
 
-    /**
-     * {@code GET  /branches} : get all the branches.
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of branches in body.
-     */
-    @GetMapping("/branches")
-    public List<Branch> getAllBranches() {
-        log.debug("REST request to get all Branches");
-        return branchService.findAll();
-    }
+	/**
+	 * {@code PUT  /branches} : Updates an existing branch.
+	 *
+	 * @param branch the branch to update.
+	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+	 *         the updated branch, or with status {@code 400 (Bad Request)} if the
+	 *         branch is not valid, or with status
+	 *         {@code 500 (Internal Server Error)} if the branch couldn't be
+	 *         updated.
+	 * @throws URISyntaxException if the Location URI syntax is incorrect.
+	 */
+	@PutMapping("/branches")
+	public ResponseEntity<Branch> updateBranch(@Valid @RequestBody Branch branch) throws URISyntaxException {
+		log.debug("REST request to update Branch : {}", branch);
+		if (branch.getId() == null) {
+			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+		}
 
-    /**
-     * {@code GET  /branches/:id} : get the "id" branch.
-     *
-     * @param id the id of the branch to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the branch, or with status {@code 404 (Not Found)}.
-     */
-    @GetMapping("/branches/{id}")
-    public ResponseEntity<Branch> getBranch(@PathVariable Long id) {
-        log.debug("REST request to get Branch : {}", id);
-        Optional<Branch> branch = branchService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(branch);
-    }
+		if (branchRepository.findByCode(branch.getCode()).filter(b -> b.getId() != branch.getId()).isPresent()) {
+			throw new BadRequestAlertException("A branch code already used", ENTITY_NAME, "codeexists");
+		}
+		Branch result = branchService.save(branch);
+		return ResponseEntity.ok().headers(
+				HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, branch.getId().toString()))
+				.body(result);
+	}
 
-    /**
-     * {@code DELETE  /branches/:id} : delete the "id" branch.
-     *
-     * @param id the id of the branch to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
-    @DeleteMapping("/branches/{id}")
-    public ResponseEntity<Void> deleteBranch(@PathVariable Long id) {
-        log.debug("REST request to delete Branch : {}", id);
-        branchService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
-    }
+	/**
+	 * {@code GET  /branches} : get all the branches.
+	 *
+	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+	 *         of branches in body.
+	 */
+	@GetMapping("/branches")
+	public List<Branch> getAllBranches() {
+		log.debug("REST request to get all Branches");
+		return branchService.findAll();
+	}
+
+	/**
+	 * {@code GET  /branches/:id} : get the "id" branch.
+	 *
+	 * @param id the id of the branch to retrieve.
+	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+	 *         the branch, or with status {@code 404 (Not Found)}.
+	 */
+	@GetMapping("/branches/{id}")
+	public ResponseEntity<Branch> getBranch(@PathVariable Long id) {
+		log.debug("REST request to get Branch : {}", id);
+		Optional<Branch> branch = branchService.findOne(id);
+		return ResponseUtil.wrapOrNotFound(branch);
+	}
+
+	/**
+	 * {@code DELETE  /branches/:id} : delete the "id" branch.
+	 *
+	 * @param id the id of the branch to delete.
+	 * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+	 */
+	@DeleteMapping("/branches/{id}")
+	public ResponseEntity<Void> deleteBranch(@PathVariable Long id) {
+		log.debug("REST request to delete Branch : {}", id);
+		branchService.delete(id);
+		return ResponseEntity.noContent()
+				.headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+				.build();
+	}
 }
