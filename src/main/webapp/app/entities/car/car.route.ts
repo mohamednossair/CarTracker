@@ -37,7 +37,7 @@ export const carRoute: Routes = [
       pagingParams: JhiResolvePagingParams
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       defaultSort: 'id,asc',
       pageTitle: 'Cars'
     },
@@ -50,7 +50,7 @@ export const carRoute: Routes = [
       car: CarResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Cars'
     },
     canActivate: [UserRouteAccessService]
@@ -62,7 +62,7 @@ export const carRoute: Routes = [
       car: CarResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Cars'
     },
     canActivate: [UserRouteAccessService]
@@ -74,7 +74,7 @@ export const carRoute: Routes = [
       car: CarResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Cars'
     },
     canActivate: [UserRouteAccessService]
@@ -89,7 +89,7 @@ export const carPopupRoute: Routes = [
       car: CarResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Cars'
     },
     canActivate: [UserRouteAccessService],

@@ -62,7 +62,7 @@ export const employeeCarsRoute: Routes = [
       employeeCars: EmployeeCarsResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'EmployeeCars'
     },
     canActivate: [UserRouteAccessService]
@@ -89,7 +89,7 @@ export const employeeCarsPopupRoute: Routes = [
       employeeCars: EmployeeCarsResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'EmployeeCars'
     },
     canActivate: [UserRouteAccessService],

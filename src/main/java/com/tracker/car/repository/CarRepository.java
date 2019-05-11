@@ -1,8 +1,11 @@
 package com.tracker.car.repository;
 
-import com.tracker.car.domain.Car;
-import org.springframework.data.jpa.repository.*;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.tracker.car.domain.Car;
 
 
 /**
@@ -11,5 +14,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
-
+	Optional<Car> findByCode(String code);
 }

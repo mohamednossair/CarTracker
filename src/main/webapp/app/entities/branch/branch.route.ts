@@ -33,7 +33,7 @@ export const branchRoute: Routes = [
     path: '',
     component: BranchComponent,
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Branches'
     },
     canActivate: [UserRouteAccessService]
@@ -45,7 +45,7 @@ export const branchRoute: Routes = [
       branch: BranchResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Branches'
     },
     canActivate: [UserRouteAccessService]
@@ -57,7 +57,7 @@ export const branchRoute: Routes = [
       branch: BranchResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Branches'
     },
     canActivate: [UserRouteAccessService]
@@ -69,7 +69,7 @@ export const branchRoute: Routes = [
       branch: BranchResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Branches'
     },
     canActivate: [UserRouteAccessService]
@@ -84,7 +84,7 @@ export const branchPopupRoute: Routes = [
       branch: BranchResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Branches'
     },
     canActivate: [UserRouteAccessService],

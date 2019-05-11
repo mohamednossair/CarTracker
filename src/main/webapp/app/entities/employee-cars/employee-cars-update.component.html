@@ -10,6 +10,32 @@
                         readonly />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" formControlName="employee">
+                        <option *ngIf="!editForm.get('employee').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="employeeOption.id === editForm.get('employee').value?.id ? editForm.get('employee').value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.code}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('employee').invalid && (editForm.get('employee').dirty || editForm.get('employee').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('employee').errors.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_car">Car</label>
+                    <select class="form-control" id="field_car" name="car" formControlName="car">
+                        <option *ngIf="!editForm.get('car').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="carOption.id === editForm.get('car').value?.id ? editForm.get('car').value : carOption" *ngFor="let carOption of cars; trackBy: trackCarById">{{carOption.code}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('car').invalid && (editForm.get('car').dirty || editForm.get('car').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('car').errors.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_previousReading">Previous Reading</label>
                     <input type="number" class="form-control" name="previousReading" id="field_previousReading"
                            formControlName="previousReading"/>
@@ -54,32 +80,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_employee">Employee</label>
-                    <select class="form-control" id="field_employee" name="employee" formControlName="employee">
-                        <option *ngIf="!editForm.get('employee').value" [ngValue]="null" selected></option>
-                        <option [ngValue]="employeeOption.id === editForm.get('employee').value?.id ? editForm.get('employee').value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.id}}</option>
-                    </select>
-                </div>
-                <div *ngIf="editForm.get('employee').invalid && (editForm.get('employee').dirty || editForm.get('employee').touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('employee').errors.required">
-                        This field is required.
-                    </small>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_car">Car</label>
-                    <select class="form-control" id="field_car" name="car" formControlName="car">
-                        <option *ngIf="!editForm.get('car').value" [ngValue]="null" selected></option>
-                        <option [ngValue]="carOption.id === editForm.get('car').value?.id ? editForm.get('car').value : carOption" *ngFor="let carOption of cars; trackBy: trackCarById">{{carOption.id}}</option>
-                    </select>
-                </div>
-                <div *ngIf="editForm.get('car').invalid && (editForm.get('car').dirty || editForm.get('car').touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('car').errors.required">
-                        This field is required.
-                    </small>
-                </div>
+
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Employee Cars</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-employee-cars" [routerLink]="['/employee-cars/new']">
+        <button  *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-employee-cars" [routerLink]="['/employee-cars/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >
             Create new Employee Cars
@@ -15,32 +15,34 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="employee.id"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="car.id"><span>Car</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="previousReading"><span>Previous Reading</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="currentReading"><span>Current Reading</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="workingDays"><span>Working Days</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updateDate"><span>Update Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="employee.id"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="car.id"><span>Car</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let employeeCars of employeeCars ;trackBy: trackId">
                 <td><a [routerLink]="['/employee-cars', employeeCars.id, 'view' ]">{{employeeCars.id}}</a></td>
-                <td>{{employeeCars.previousReading}}</td>
-                <td>{{employeeCars.currentReading}}</td>
-                <td>{{employeeCars.workingDays}}</td>
-                <td>{{employeeCars.updateDate | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="employeeCars.employee">
-                        <a [routerLink]="['../employee', employeeCars.employee?.id, 'view' ]" >{{employeeCars.employee?.id}}</a>
+                        <a [routerLink]="['../employee', employeeCars.employee?.id, 'view' ]" >{{employeeCars.employee?.code}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="employeeCars.car">
-                        <a [routerLink]="['../car', employeeCars.car?.id, 'view' ]" >{{employeeCars.car?.id}}</a>
+                        <a [routerLink]="['../car', employeeCars.car?.id, 'view' ]" >{{employeeCars.car?.code}}</a>
                     </div>
                 </td>
+                <td>{{employeeCars.previousReading}}</td>
+                <td>{{employeeCars.currentReading}}</td>
+                <td>{{employeeCars.workingDays}}</td>
+                <td>{{employeeCars.updateDate | date:'mediumDate'}}</td>
+
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
@@ -55,7 +57,7 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" P type="submit"
                                 [routerLink]="['/', 'employee-cars', { outlets: { popup: employeeCars.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
